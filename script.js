@@ -29,11 +29,11 @@ window.addEventListener('DOMContentLoaded', () => {
         body.classList.add('light-mode');
         theme_toggle.innerHTML = "Dark Mode";
     } else {
-        // Default
+
         body.classList.add('dark-mode');
     }
 
-    // Auto-open calendar on click for the date wrapper
+
     let dateInput = document.getElementById("date");
     dateInput.addEventListener('click', () => {
         if ('showPicker' in HTMLInputElement.prototype) {
