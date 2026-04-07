@@ -7,22 +7,71 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <header id="header">
+    <header class="header">
         <h1>My Cosmic Day</h1>
-        <navbar id="navbar">
-            <a>Home</a>
-            <a>About</a>
-        </navbar>
+        <nav class="navbar">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <button id="theme-toggle" class="theme-toggle">Light Mode</button>
+        </nav>
     </header>
-    <main id="main">
-        <label for="date">Date:</label>
-        <input type="date" id="date" />
-        <button type="submit" id="btn">SEARCH</button>
-        <label for="isHd">HD Image</label>
-        <input type="checkbox" id="isHd">
-        <div id="display">
+    <main class="main-content" id="home">
+        <div class="search-container">
+            <div class="input-group">
+                <label for="date">Choose a Date</label>
+                <input type="date" id="date" />
+            </div>
+            <div class="input-group checkbox-group">
+                <input type="checkbox" id="isHd">
+                <label for="isHd">HD Quality</label>
+            </div>
+            <button type="button" id="btn" class="search-btn">Explore Universe</button>
+        </div>
+        
+        <div id="display" class="image-display">
+            <p class="placeholder-text">Select a date to see the cosmos.</p>
         </div>
 
+        <section id="about" class="content-section">
+            <h2>About MyCosmicDay</h2>
+            <p class="section-desc">MyCosmicDay is a lightweight web app that lets you explore NASA’s Astronomy Picture of the Day (APOD) for any date. Discover what the universe looked like on your birth date or any other special day!</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Time Travel</h3>
+                    <p>Pick any date from 1995 to today and see the cosmos.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>HD Imagery</h3>
+                    <p>Toggle high-definition mode for breathtaking details.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Pure Vanilla</h3>
+                    <p>No heavy frameworks. Just lightning-fast HTML, CSS, and JS.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="content-section">
+            <h2>Contact Us</h2>
+            <p class="section-desc">Have questions, feedback, or just want to talk about space? Reach out to us!</p>
+            <form class="contact-form">
+                <div class="input-wrapper">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" placeholder="John Doe" required>
+                </div>
+                <div class="input-wrapper">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" placeholder="john@example.com" required>
+                </div>
+                <div class="input-wrapper">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" rows="4" placeholder="Type your message here..." required></textarea>
+                </div>
+                <button type="button" class="submit-btn search-btn">Send Message</button>
+            </form>
+        </section>
     </main>
 <script type="module" src="./script.js"></script>
 </body>

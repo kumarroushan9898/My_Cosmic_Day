@@ -1,11 +1,64 @@
 let sub_btn = document.getElementById("btn");
+let theme_toggle = document.getElementById("theme-toggle");
 
 sub_btn.addEventListener("click", img);
+
+theme_toggle.addEventListener("click", toggleTheme);
+
+function toggleTheme() {
+    let body = document.body;
+    if (body.classList.contains('light-mode')) {
+        body.classList.remove('light-mode');
+        body.classList.add('dark-mode');
+        theme_toggle.innerHTML = "Light Mode";
+        localStorage.setItem('theme', 'dark-mode');
+    } else {
+        body.classList.remove('dark-mode');
+        body.classList.add('light-mode');
+        theme_toggle.innerHTML = "Dark Mode";
+        localStorage.setItem('theme', 'light-mode');
+    }
+}
+
+// Check for saved theme
+window.addEventListener('DOMContentLoaded', () => {
+    let savedTheme = localStorage.getItem('theme');
+    let body = document.body;
+    
+    if (savedTheme === 'light-mode') {
+        body.classList.add('light-mode');
+        theme_toggle.innerHTML = "Dark Mode";
+    } else {
+        // Default
+        body.classList.add('dark-mode');
+    }
+
+    // Auto-open calendar on click for the date wrapper
+    let dateInput = document.getElementById("date");
+    dateInput.addEventListener('click', () => {
+        if ('showPicker' in HTMLInputElement.prototype) {
+            dateInput.showPicker();
+        }
+    });
+});
 
 function img() {
     let isHd = document.getElementById("isHd").checked;
     let date = document.getElementById("date").value;
     let area = document.getElementById("display");
+
+    if (!date) {
+        area.innerHTML = '<p class="placeholder-text" style="color:red;">Please select a date first!</p>';
+        return;
+    }
+
+    // Show loading animation
+    area.innerHTML = `
+        <div class="loader-container">
+            <div class="loader"></div>
+            <p class="placeholder-text">Traveling through space...</p>
+        </div>
+    `;
 
     let x = url(date);
 
@@ -17,10 +70,53 @@ function img() {
         return data.hdurl;           
     })
     .then((link) => {
-        area.innerHTML = `<img src="${link}" id="pic" />`;
+        let loadedImage = new Image();
+        loadedImage.src = link;
+        loadedImage.id = "pic";
+        
+        // Wait for image to fully load before showing it
+        loadedImage.onload = () => {
+            area.innerHTML = ''; 
+            
+            let wrapper = document.createElement("div");
+            wrapper.className = "image-wrapper";
+            wrapper.appendChild(loadedImage);
+            
+            let controls = document.createElement("div");
+            controls.className = "image-controls";
+            
+            let fullscreenBtn = document.createElement("button");
+            fullscreenBtn.className = "control-btn";
+            fullscreenBtn.innerHTML = "Full Screen";
+            
+            // Listen to browser fullscreen changes to automatically update text
+            document.addEventListener('fullscreenchange', () => {
+                if (document.fullscreenElement === wrapper) {
+                    fullscreenBtn.innerHTML = "Exit Full Screen";
+                } else {
+                    fullscreenBtn.innerHTML = "Full Screen";
+                }
+            });
+
+            fullscreenBtn.onclick = () => {
+                if (!document.fullscreenElement) {
+                    wrapper.requestFullscreen().catch(err => console.log(err));
+                } else {
+                    document.exitFullscreen();
+                }
+            };
+            
+            controls.appendChild(fullscreenBtn);
+            wrapper.appendChild(controls);
+            area.appendChild(wrapper);
+        };
+
+        loadedImage.onerror = () => {
+            area.innerHTML = `<p class="placeholder-text" style="color:red;">Failed to load the visual data.</p>`;
+        };
     })
     .catch(() => {
-        alert("something is wrong in fetch");
+        area.innerHTML = `<p class="placeholder-text" style="color:red;">Failed to retrieve image. Please try again.</p>`;
     });
 }
 
