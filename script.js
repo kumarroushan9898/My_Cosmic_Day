@@ -63,11 +63,17 @@ function img() {
     let x = url(date);
 
     x.then((data) => {
+        if (data.code && data.code !== 200) {
+            throw new Error(data.msg || "API Error");
+        }
         return validation(data, date);
     })
     .then((data) => {
-        if (!isHd) return data.url;  
-        return data.hdurl;           
+        let imageUrl = isHd && data.hdurl ? data.hdurl : data.url;
+        if (!imageUrl) {
+            throw new Error("No image URL available");
+        }
+        return imageUrl;
     })
     .then((link) => {
         let loadedImage = new Image();
@@ -114,9 +120,13 @@ function img() {
         loadedImage.onerror = () => {
             area.innerHTML = `<p class="placeholder-text" style="color:red;">Failed to load the visual data.</p>`;
         };
+        if (loadedImage.complete) {
+            loadedImage.onload();
+        }
     })
-    .catch(() => {
-        area.innerHTML = `<p class="placeholder-text" style="color:red;">Failed to retrieve image. Please try again.</p>`;
+    .catch((err) => {
+        console.error(err);
+        area.innerHTML = `<p class="placeholder-text" style="color:red;">Failed to retrieve image: ${err.message || 'Please try again.'}</p>`;
     });
 }
 
@@ -136,5 +146,10 @@ function getPreviousDate(date) {
 
 function url(date) {
     return fetch(`https://api.nasa.gov/planetary/apod?api_key=7h35Cqp0fpD0eq6YLSF20w8Vw7QX5yOib7so8FMe&date=${date}`)
-        .then((res) => res.json());
+        .then((res) => {if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+    
+            }else{
+                return res.json()
+            }});
 }
