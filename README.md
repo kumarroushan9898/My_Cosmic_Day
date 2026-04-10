@@ -1,4 +1,5 @@
-🌌 MyCosmicDay
+# My_Cosmic_Day
+MyCosmicDay
 MyCosmicDay is a lightweight, framework-free web app that lets you explore NASA’s Astronomy Picture of the Day (APOD) for any date — including your birthday 🎂✨
 Built using vanilla HTML, CSS, and JavaScript, it delivers a smooth and elegant space experience without any heavy dependencies.
 
@@ -51,9 +52,6 @@ const API_KEY = "your_api_key_here";
   ├── index.html
   ├── style.css
   ├── script.js
-  ├── /assets
-       ├── background.jpg
-       └── icons/
 
 🎨 UI / UX Design
 * 🌌 Dark space-themed interface
@@ -67,19 +65,12 @@ const API_KEY = "your_api_key_here";
 3. API returns image, title, and description
 4. Data is dynamically rendered on the page
 
-🚀 Future Enhancements
-* ⭐ Save favorite images (LocalStorage)
-* 📤 Share images on social media
-* 🎥 Support APOD videos (YouTube embeds)
-* 🔎 Add search history
-* 🌍 Multi-language support
 
-
-🙏 Acknowledgements
+Acknowledgements
 * NASA for the incredible APOD API
 * The space-loving developer community 🌍
 
 🌠 Inspiration
 “Every day has a story written in the stars.”
 MyCosmicDay connects your personal moments with the vast beauty of the universe.
-# My_Cosmic_Day
+
