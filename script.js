@@ -125,7 +125,6 @@ function img() {
         }
     })
     .catch((err) => {
-        console.error(err);
         area.innerHTML = `<p class="placeholder-text" style="color:red;">Failed to retrieve image: ${err.message || 'Please try again.'}</p>`;
     });
 }
